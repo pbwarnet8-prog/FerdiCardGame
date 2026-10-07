@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Bangers&display=swap" rel="stylesheet">
+<title>Interest & Talent Comic Card Game</title>
+<style>
+:root{--bg:#fff4cf;--ink:#222;--mute:#666;--paper:#fff;--line:#e6dcc8;--blue:#3b82f6;--yel:#f5b301;--grn:#22a06b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17181c;--ink:#f2f2f2;--mute:#aaa;--paper:#262830;--line:#3a3d47}}
+:root[data-theme="dark"]{--bg:#17181c;--ink:#f2f2f2;--mute:#aaa;--paper:#262830;--line:#3a3d47}
+html{scroll-behavior:smooth;scroll-padding-top:60px;height:auto}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2","Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);border-bottom:2px solid var(--line);display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:8px;z-index:5}
+nav a{color:var(--ink);text-decoration:none;font-weight:800;font-size:.88rem;padding:6px 12px;border-radius:99px}
+nav a:hover{background:var(--line)}
+.hero{text-align:center;padding:40px 18px 28px;background:linear-gradient(135deg,color-mix(in srgb,var(--blue) 22%,var(--bg)),color-mix(in srgb,var(--yel) 22%,var(--bg)),color-mix(in srgb,var(--grn) 22%,var(--bg)))}
+.hero h1{margin:0;font-size:clamp(1.8rem,6vw,2.8rem)}
+.hero p{max-width:560px;margin:10px auto 18px;color:var(--mute)}
+.btn{display:inline-block;border:0;border-radius:99px;padding:11px 24px;font-weight:800;font-size:1rem;color:#fff;background:var(--blue);cursor:pointer;text-decoration:none;font-family:inherit}
+.btn.s{background:var(--paper);color:var(--ink);border:2px solid var(--line)}
+.types{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.types span{padding:5px 14px;border-radius:99px;color:#fff;font-weight:800;font-size:.85rem}
+section.w{max-width:980px;margin:0 auto;padding:30px 16px}
+h2{margin:0 0 4px;font-size:1.5rem}
+.sub{color:var(--mute);margin:0 0 16px;font-size:.95rem}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.slot{perspective:800px;cursor:pointer}
+.in{position:relative;aspect-ratio:3/4;transition:transform .6s;transform-style:preserve-3d}
+.slot.g .in{aspect-ratio:4/3}
+.slot.f .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.back{background:var(--c);color:#fff;align-items:center;justify-content:center;font-size:3.4rem;border:5px solid var(--paper);outline:3px solid var(--c)}
+.back small{font-size:.85rem;font-weight:800;letter-spacing:1px;margin-top:6px}
+.front{transform:rotateY(180deg);background:var(--paper);border:5px solid var(--c)}
+.hd{background:var(--c);color:#fff;font-size:.65rem;font-weight:800;letter-spacing:1px;text-align:center;padding:4px}
+.pic{flex:1;display:grid;place-items:center;font-size:3.8rem;background:radial-gradient(circle at 50% 45%,var(--paper) 0 28%,transparent 29%),radial-gradient(color-mix(in srgb,var(--c) 28%,transparent) 2px,transparent 2.5px) 0 0/16px 16px,color-mix(in srgb,var(--c) 18%,var(--paper))}
+.tx{text-align:center;padding:8px 6px 10px;border-bottom:8px solid var(--k)}
+.en{font-weight:800;line-height:1.15;text-transform:uppercase;color:var(--c)}
+.slot.g .en{text-transform:none;font-size:1.15rem}
+.id{color:var(--mute);font-size:.82rem;margin-top:3px}
+.ctl{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 10px}
+.say{max-width:640px;margin:10px auto 0;background:var(--paper);border:2px dashed var(--line);border-radius:16px;padding:14px 16px;text-align:center;min-height:70px}
+.say b{color:var(--blue)}
+.timer{font-size:1.6rem;font-weight:800;text-align:center;margin-top:8px;color:var(--grn)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filters button{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 14px;font-weight:800;cursor:pointer;font-family:inherit}
+.filters button.on{background:var(--ink);color:var(--bg)}
+.gal{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(145px,1fr))}
+.gal .card{border:5px solid var(--c);border-radius:20px;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;aspect-ratio:3/4}
+.gal .card .en{font-size:.92rem}
+.steps{display:grid;gap:10px}
+.st{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+.st i{font-style:normal;font-size:1.8rem}
+.st b{display:block}
+.st span{color:var(--mute);font-size:.88rem}
+.tm{margin-left:auto;font-weight:800;font-size:.8rem;white-space:nowrap;color:var(--mute)}
+footer{text-align:center;color:var(--mute);padding:24px 16px 36px;font-size:.85rem}
+
+.hero{position:relative;overflow:hidden;padding:56px 18px 64px;clip-path:ellipse(120% 100% at 50% 0)}
+.hero>*{position:relative;z-index:1}
+.fl{position:absolute;inset:0;z-index:0;pointer-events:none}
+.fl i{position:absolute;font-style:normal;font-size:2.2rem;opacity:.55;animation:fy 6s ease-in-out infinite}
+@keyframes fy{50%{transform:translateY(-22px) rotate(12deg)}}
+.hero h1{font-size:clamp(2.2rem,8vw,3.8rem);line-height:1.05;background:linear-gradient(90deg,#3b82f6,#ec407a,#f59f00,#22a06b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{box-shadow:0 5px 0 rgba(0,0,0,.2);transition:transform .1s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.btn.gr{background:var(--grn)}.btn.pk{background:#ec407a}
+h2{display:inline-block;font-size:1.9rem;border-bottom:6px solid var(--yel);border-radius:3px}
+#main .slots{background:color-mix(in srgb,var(--blue) 8%,var(--paper));border:3px dashed var(--line);border-radius:26px;padding:18px}
+.slot:hover .in{animation:wg .5s}
+@keyframes wg{25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+.gal .card{transition:transform .2s;cursor:pointer}.gal .card:hover{transform:translateY(-6px) rotate(-2deg) scale(1.04)}
+.st{transition:transform .2s;border-left:8px solid var(--blue)}.st:hover{transform:translateX(6px)}
+.st:nth-child(3n+2){border-left-color:var(--yel)}.st:nth-child(3n){border-left-color:var(--grn)}
+.snd{position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9;display:flex;gap:8px}
+.snd button{width:52px;height:52px;border-radius:50%;border:3px solid var(--paper);background:var(--ink);color:var(--bg);font-size:1.4rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.stars{text-align:center;font-weight:800;font-size:1.2rem;margin-top:6px}
+.cf{position:fixed;top:-30px;font-size:1.8rem;z-index:20;pointer-events:none;animation:cf 2.2s ease-in forwards}
+@keyframes cf{to{transform:translateY(110vh) rotate(540deg)}}
+
+.md{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:30;display:none;align-items:center;justify-content:center;padding:16px}
+.md.on{display:flex}
+.mb{background:var(--paper);border:6px solid var(--c);border-radius:28px;max-width:440px;width:100%;max-height:92%;overflow:auto;animation:pp .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pp{from{transform:scale(.5);opacity:0}}
+.mh{background:var(--c);color:#fff;text-align:center;padding:8px;font-weight:800;letter-spacing:1px;font-size:.85rem;position:relative}
+.mx{position:absolute;right:8px;top:4px;border:0;background:rgba(255,255,255,.3);color:#fff;border-radius:50%;width:30px;height:30px;font-size:1rem;cursor:pointer}
+.me{text-align:center;font-size:5rem;padding:14px 0 4px;background:color-mix(in srgb,var(--c) 16%,var(--paper))}
+.me span{display:inline-block;animation:bn 1s ease-in-out infinite}
+@keyframes bn{50%{transform:translateY(-14px) scale(1.12) rotate(-6deg)}}
+.mt{padding:14px 18px 18px}
+.mt h3{margin:0;text-align:center;color:var(--c);font-size:1.5rem;text-transform:uppercase}
+.mt .id{text-align:center;margin-bottom:10px}
+.bx{border-radius:14px;padding:10px 12px;margin-top:8px;background:color-mix(in srgb,var(--c) 12%,var(--paper));font-size:.95rem}
+.bx small{display:block;font-weight:800;color:var(--c);font-size:.72rem;letter-spacing:1px}
+.mc{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.mc .btn{padding:8px 16px;font-size:.9rem}
+.mtm{text-align:center;font-size:1.5rem;font-weight:800;color:var(--c);min-height:1.8rem}
+
+.tabs{display:flex;gap:6px;padding:10px 12px 0;overflow-x:auto}
+.tabs button{flex:1;white-space:nowrap;border:2px solid var(--c);background:var(--paper);color:var(--c);border-radius:99px;padding:6px 10px;font-weight:800;font-size:.8rem;cursor:pointer;font-family:inherit}
+.tabs button.on{background:var(--c);color:#fff}
+.vg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.vc{border:3px solid var(--c);border-radius:16px;background:var(--paper);text-align:center;padding:10px 4px;cursor:pointer;transition:transform .15s;font-family:inherit;color:var(--ink)}
+.vc:hover{transform:translateY(-4px) rotate(-2deg)}
+.vc b{display:block;font-size:2.2rem;font-weight:400}
+.vc span{font-weight:800;font-size:.85rem;color:var(--c)}
+.vc small{display:block;font-size:.75rem;color:var(--mute);min-height:1rem}
+.vc.rv{background:color-mix(in srgb,var(--c) 15%,var(--paper))}
+.zn{min-height:54px;border:3px dashed var(--c);border-radius:14px;padding:6px;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.ch{border:0;background:var(--c);color:#fff;border-radius:12px;padding:7px 12px;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.2);font-family:inherit}
+.ch.pl{background:var(--paper);color:var(--c);border:2px solid var(--c)}
+.rs{text-align:center;font-weight:800;min-height:1.6rem;margin-top:8px}
+.op{display:block;width:100%;text-align:left;margin-top:8px;border:3px solid var(--line);background:var(--paper);color:var(--ink);border-radius:14px;padding:10px 14px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit}
+.op:hover{border-color:var(--c)}
+.op.ok{background:#22a06b;color:#fff;border-color:#22a06b}
+.op.no{background:#e53935;color:#fff;border-color:#e53935;animation:sk .3s}
+@keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pg{text-align:center;color:var(--mute);font-size:.8rem;font-weight:800}
+
+.sl{display:none}.sl.on{display:block;animation:sli .35s}
+@keyframes sli{from{opacity:0;transform:translateX(30px)}}
+section.w{padding-bottom:110px}.hero.sl{min-height:calc(100vh - 60px)}
+nav{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start}
+nav button{border:0;background:none;color:var(--ink);font-weight:800;font-size:.88rem;padding:6px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;font-family:inherit}
+nav button.on{background:var(--ink);color:var(--bg)}
+.sb{position:fixed;left:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9;display:flex;gap:8px;align-items:center}
+.sb button{width:52px;height:52px;border-radius:50%;border:3px solid var(--paper);background:var(--blue);color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.sb span{background:var(--paper);border:2px solid var(--line);border-radius:99px;padding:4px 10px;font-weight:800;font-size:.85rem}
+.ct{text-align:center}
+.whl{--s:min(78vw,320px);position:relative;width:var(--s);height:var(--s);margin:26px auto 14px;border-radius:50%;border:8px solid var(--ink);transition:transform 4s cubic-bezier(.12,.7,.1,1);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.whl i{position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px;font-style:normal;font-size:1.5rem;text-align:center}
+.pt{position:absolute;left:50%;top:-6px;transform:translateX(-50%);font-size:2.2rem;z-index:2;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4))}
+.rw{position:relative;width:fit-content;margin:0 auto}
+.rbox{max-width:460px;margin:12px auto 0;border:4px solid var(--c,var(--line));border-radius:20px;padding:12px 16px;background:var(--paper);text-align:center;min-height:70px}
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:520px;margin:12px auto}
+.tl{aspect-ratio:1;border-radius:14px;border:3px solid var(--line);background:var(--blue);color:#fff;font-weight:800;font-size:1.6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:inherit;line-height:1.1;padding:2px;transition:transform .2s}
+.tl small{font-size:.62rem}
+.tl.up{background:var(--paper);color:var(--ink);transform:rotateY(0);font-size:.85rem;border-color:var(--c)}
+.tl.up b{font-size:1.7rem;font-weight:400}
+.tl.dn{background:color-mix(in srgb,var(--c) 25%,var(--paper));border-color:var(--c)}
+.big{font-size:4.5rem}
+.pz{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;width:min(300px,78vw);margin:10px auto;background:var(--c);padding:3px;border-radius:14px}
+.pz button{aspect-ratio:1;border:0;padding:0;cursor:pointer;background-size:300% 300%;border-radius:6px;transition:transform .15s}
+.pz button.sel{outline:4px solid #ffd43b;outline-offset:-4px;transform:scale(.92)}
+.pz button.ok{box-shadow:inset 0 0 0 3px #22a06b}
+.cvw{position:relative;background:#fff;border:3px solid var(--c);border-radius:14px;margin-top:8px;overflow:hidden;background-image:radial-gradient(#0002 1px,transparent 1.5px);background-size:18px 18px}
+.cvw canvas{display:block;width:100%;aspect-ratio:3/2;touch-action:none;position:relative;z-index:1;cursor:crosshair}
+.cvw.gd::before{content:attr(data-em);position:absolute;inset:0;display:grid;place-items:center;font-size:8rem;opacity:.18;z-index:0}
+.tls{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:8px}
+.sw{width:30px;height:30px;border-radius:50%;border:3px solid var(--paper);box-shadow:0 0 0 2px var(--line);cursor:pointer;padding:0}
+.sw.on{box-shadow:0 0 0 3px var(--ink);transform:scale(1.15)}
+.tbn{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:0 9px;cursor:pointer;font-weight:800;font-family:inherit;font-size:.8rem;height:32px}
+.tbn.on{background:var(--ink);color:var(--bg)}
+
+/* ===== V2 REFRESH ===== */
+body{background:radial-gradient(circle at 8% 0,color-mix(in srgb,var(--blue) 16%,transparent),transparent 42%),radial-gradient(circle at 95% 8%,color-mix(in srgb,var(--yel) 18%,transparent),transparent 40%),radial-gradient(circle at 50% 100%,color-mix(in srgb,var(--grn) 14%,transparent),transparent 45%),var(--bg);background-attachment:fixed;padding-bottom:96px}
+h1,h2,h3,.lg,.mh,.hs{font-family:"Fredoka","Baloo 2",system-ui,sans-serif}
+.tp{position:sticky;top:env(safe-area-inset-top,0px);z-index:8;display:flex;align-items:center;gap:10px;padding:8px 14px;background:color-mix(in srgb,var(--paper) 86%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:2px solid var(--line)}
+.lg{font-weight:700;white-space:nowrap;font-size:1.05rem}
+nav{position:static;flex:1;background:none;border:0;padding:0;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button.on{background:linear-gradient(135deg,var(--blue),#8e44ad);color:#fff}
+.rt{display:flex;gap:8px;align-items:center}
+.hs{background:color-mix(in srgb,var(--yel) 28%,var(--paper));border:2px solid var(--yel);border-radius:99px;padding:3px 12px;font-weight:700;white-space:nowrap}
+#th{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);background:var(--paper);cursor:pointer;font-size:1rem}
+.pbi{position:absolute;left:0;bottom:-2px;height:4px;width:14%;background:linear-gradient(90deg,var(--blue),#ec407a,var(--yel),var(--grn));transition:width .4s;border-radius:0 4px 4px 0}
+.hero{margin:0;border-radius:0 0 40px 40px;clip-path:none}
+.hero h1{font-weight:700}
+.fan{display:flex;justify-content:center;margin-top:28px}
+.fc{width:92px;aspect-ratio:3/4;border:4px solid var(--c);border-radius:16px;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 -7px;box-shadow:0 8px 18px rgba(0,0,0,.18);animation:fy2 5s ease-in-out infinite}
+@keyframes fy2{50%{translate:0 -12px}}
+.fc b{font-size:2.3rem;font-weight:400}.fc span{font-size:.62rem;font-weight:800;color:var(--c);text-transform:uppercase;padding:0 3px;text-align:center}
+section.w{max-width:1040px;margin:18px auto;padding:28px 24px;background:var(--paper);border:2px solid var(--line);border-radius:30px;box-shadow:0 12px 40px rgba(70,50,0,.10)}
+h2{border:0;font-size:clamp(1.5rem,4vw,2.1rem);background:linear-gradient(transparent 60%,color-mix(in srgb,var(--yel) 55%,transparent) 60%);padding:0 6px;border-radius:0}
+.btn{background-image:linear-gradient(rgba(255,255,255,.22),rgba(255,255,255,0));font-family:"Fredoka","Baloo 2",sans-serif;letter-spacing:.2px}
+button:focus-visible,[data-go]:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#main .slots{background:linear-gradient(135deg,color-mix(in srgb,var(--blue) 10%,var(--paper)),color-mix(in srgb,var(--yel) 12%,var(--paper)));border:3px dashed var(--line)}
+.gal .card{position:relative}
+.gal .card[data-t="0"]::after,.gal .card[data-t="1"]::after{content:"▶ Buka";position:absolute;top:30px;right:6px;background:var(--c);color:#fff;font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:99px}
+.whl::after{content:"🎤";position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px;border-radius:50%;background:var(--paper);border:5px solid var(--ink);display:grid;place-items:center;font-size:1.4rem}
+.st i{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--blue) 14%,var(--paper));flex:none;font-size:1.5rem}
+.tl{box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.sb{left:50%;transform:translateX(-50%);gap:8px;background:color-mix(in srgb,var(--paper) 92%,transparent);border:2px solid var(--line);border-radius:99px;padding:6px 10px;box-shadow:0 8px 24px rgba(0,0,0,.2);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.sb button{width:44px;height:44px;border:0;background:linear-gradient(135deg,var(--blue),#8e44ad)}
+.sb span{border:0;background:none;padding:0}
+#dts{display:flex;gap:6px}
+.dt{width:11px;height:11px;border-radius:50%;border:0;background:var(--line);padding:0;cursor:pointer;transition:all .25s}
+.dt.on{width:28px;border-radius:99px;background:linear-gradient(90deg,var(--blue),#ec407a)}
+#cn{display:none;font-size:.85rem;font-weight:800}
+.snd button{width:46px;height:46px}
+.mb{border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.mh{font-size:.95rem;padding:10px}
+.md{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+footer{padding-bottom:20px}
+@media(max-width:560px){
+.lg b{display:none}
+section.w{margin:10px;padding:20px 14px;border-radius:24px}
+.sb{left:10px;transform:none;padding:5px 8px}.sb button{width:40px;height:40px}
+#dts{display:none}#cn{display:inline}
+.snd{right:8px}.snd button{width:40px;height:40px;font-size:1.1rem}
+.md{align-items:flex-end;padding:0}.mb{max-width:none;border-radius:28px 28px 0 0;max-height:94%}
+.fc{width:78px}}
+@media(prefers-reduced-motion:reduce){*:not(.whl){animation:none!important;transition:none!important}}
+
+/* ===== V3 COMIC THEME ===== */
+body{background:radial-gradient(#00000022 1.3px,transparent 1.8px) 0 0/14px 14px,var(--bg);background-attachment:fixed}
+h1,h2,h3,.lg,.mh,.hs,.btn,.hd,.en{font-family:"Bangers","Baloo 2",system-ui,sans-serif;font-weight:400;letter-spacing:1px}
+.tp{background:#ffd43b;border-bottom:4px solid #111;-webkit-backdrop-filter:none;backdrop-filter:none}
+.tp,.tp nav button{color:#111}
+.lg{font-size:1.5rem;color:#e53935;text-shadow:2px 2px 0 #111;letter-spacing:2px}
+nav button{font-family:"Bangers",sans-serif;font-weight:400;letter-spacing:1px;font-size:1.05rem;border:2px solid transparent}
+nav button.on{background:#e53935;color:#fff;border:2px solid #111;box-shadow:2px 2px 0 #111}
+.hs{background:#fff;color:#111;border:3px solid #111;box-shadow:2px 2px 0 #111;font-size:1.1rem}
+#th{border:3px solid #111;background:#fff}
+.pbi{height:7px;background:#e53935;bottom:-4px;border:2px solid #111;border-left:0}
+.hero{background:repeating-conic-gradient(from 0deg at 50% 70%,#ffd43b 0 9deg,#ffe680 9deg 18deg);border-bottom:5px solid #111;border-radius:0}
+.hero h1{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#fff;font-size:clamp(2.4rem,9vw,4.4rem);letter-spacing:3px;transform:rotate(-2deg);text-shadow:-3px -3px 0 #111,3px -3px 0 #111,-3px 3px 0 #111,3px 3px 0 #111,7px 7px 0 #111}
+.hero p,.sub{background:#fff;color:#111;border:3px solid #111;border-radius:18px;padding:9px 16px;box-shadow:4px 4px 0 #111;position:relative}
+.hero p{display:inline-block;margin:18px auto 24px}
+.hero p::after,.sub::after{content:"";position:absolute;left:26px;bottom:-12px;width:16px;height:16px;background:#fff;border-right:3px solid #111;border-bottom:3px solid #111;transform:rotate(45deg)}
+.sub{display:inline-block;margin:0 0 22px;font-weight:700}
+.pw{position:absolute;right:4%;top:14%;filter:drop-shadow(4px 4px 0 #111);transform:rotate(12deg);z-index:2}
+.pow{width:112px;height:112px;background:#e53935;color:#fff;display:grid;place-content:center;text-align:center;font-family:"Bangers",sans-serif;font-size:1.7rem;line-height:1;clip-path:polygon(50% 0%,61% 20%,82% 10%,80% 33%,100% 40%,84% 57%,95% 78%,72% 76%,65% 100%,50% 82%,35% 100%,28% 76%,5% 78%,16% 57%,0% 40%,20% 33%,18% 10%,39% 20%)}
+.pow small{font-size:.7rem;letter-spacing:.5px;color:#ffd43b}
+.types span{border:3px solid #111;box-shadow:3px 3px 0 #111;font-family:"Bangers",sans-serif;font-weight:400;letter-spacing:1px;font-size:1rem}
+section.w{border:4px solid #111;border-radius:14px;box-shadow:9px 9px 0 #111}
+h2{display:table;margin:0 0 18px;background:#ffd43b;color:#111;border:3px solid #111;padding:2px 16px;font-size:clamp(1.8rem,5vw,2.5rem);transform:rotate(-1.5deg);box-shadow:5px 5px 0 #111;border-radius:6px}
+.ct h2{margin:0 auto 18px}
+.btn{border:3px solid #111;box-shadow:4px 4px 0 #111;border-radius:12px;font-size:1.15rem;background-image:none;transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #111}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #111}
+.btn.s{background:#fff;color:#111}
+.gal .card,.fc,.slot .face,.vc,.st,.rbox,.tl,.op{outline:3px solid #111}
+.gal .card,.fc{box-shadow:5px 5px 0 #111}
+.gal .card:hover{transform:translate(-3px,-6px) rotate(-2deg);box-shadow:9px 9px 0 #111}
+.st{box-shadow:4px 4px 0 #111;border-width:2px;border-left-width:10px}
+.st i{border:3px solid #111;background:#fff}
+.hd{font-size:.85rem;letter-spacing:2px}
+.en{font-size:1.1rem}
+.gal .card .en{font-size:1rem}
+.rbox{box-shadow:5px 5px 0 #111}
+.tl{box-shadow:3px 3px 0 #111}
+.mb{border-width:6px;outline:4px solid #111;box-shadow:10px 10px 0 #111;border-radius:16px}
+.mh{font-size:1.2rem;letter-spacing:3px}
+.mx{border:2px solid #111;background:#fff;color:#111}
+.tabs button{font-family:"Bangers",sans-serif;font-weight:400;font-size:.95rem;letter-spacing:1px;border:3px solid #111;color:#111;box-shadow:2px 2px 0 #111}
+.tabs button.on{background:var(--c);color:#fff}
+.cvw,.zn,.pz{border-color:#111}
+.bx{border:2px solid #111;border-radius:10px}
+.sb{background:#ffd43b;border:3px solid #111;box-shadow:4px 4px 0 #111;border-radius:14px}
+.sb button{background:#e53935;border:3px solid #111;border-radius:10px;color:#fff;width:42px;height:42px}
+.dt{background:#fff;border:2px solid #111}
+.dt.on{background:#e53935}
+.snd button{background:#fff;color:#111;border:3px solid #111;box-shadow:3px 3px 0 #111}
+.pp2{position:fixed;left:50%;top:40%;z-index:40;pointer-events:none;font-family:"Bangers",sans-serif;font-size:clamp(3rem,14vw,6rem);color:#ffd43b;letter-spacing:3px;text-shadow:-4px -4px 0 #111,4px -4px 0 #111,-4px 4px 0 #111,4px 4px 0 #111,8px 8px 0 #e53935;animation:pw2 1s forwards}
+@keyframes pw2{0%{transform:translate(-50%,-50%) scale(.2) rotate(-20deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1.2) rotate(-8deg);opacity:1}100%{transform:translate(-50%,-80%) scale(1) rotate(-8deg);opacity:0}}
+@media(max-width:560px){.pow{width:78px;height:78px;font-size:1.15rem}.pow small{display:none}.pw{top:6%}.sb{padding:5px 8px}.sb button{width:38px;height:38px}section.w{box-shadow:5px 5px 0 #111}}
+
+/* riwayat navigasi */
+.sb button:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.sb button small{display:none}
+@media(min-width:561px){.sb button{width:auto;min-width:44px;padding:0 14px;font-size:1rem;display:inline-flex;align-items:center;gap:6px}.sb button small{display:inline;font-size:.8rem;font-family:"Baloo 2",sans-serif;font-weight:800}}
+</style>
+</head>
+<body>
+<header class="tp"><div class="lg">🎤 <b>INTEREST &amp; TALENT!</b></div><nav id="nv"></nav><div class="rt"><span class="hs" id="hs">⭐ 0</span><button id="th" title="Terang / Gelap">🌓</button></div><i class="pbi" id="pbi"></i></header>
+
+<div class="hero sl" id="top"><div class="fl" id="fl2"></div><div class="pw"><div class="pow">WOW!<small>Kelas 6 SD</small></div></div>
+<h1>🎤 My Interest &amp; Talent Card Game</h1>
+<p>Permainan kartu speaking bahasa Inggris untuk Kelas 6 SD. Ambil kartu, lalu ceritakan minat dan bakatmu!</p>
+<button class="btn" data-go="1">Mulai Main 🎮</button> <button class="btn s" data-go="6">Lihat Alur Kelas</button> <button class="btn pk" data-go="3">🧠 Game Memory</button>
+<div class="fan" id="fan"></div><div class="types"><span style="background:var(--blue)">🟦 12 Kartu Minat</span><span style="background:#d99a00">🟨 8 Kartu Bakat</span><span style="background:var(--grn)">🟩 4 Kartu Pertanyaan</span></div>
+</div>
+
+<section class="w sl" id="main">
+<h2>🎮 Pick &amp; Speak</h2>
+<p class="sub">Klik kartu untuk membalik, atau tekan "Ambil Semua Kartu". Lalu jawab pertanyaan dalam bahasa Inggris!</p>
+<div class="slots" id="slots"></div>
+<div class="ctl"><button class="btn" id="all">🎲 Ambil Semua Kartu</button><button class="btn gr" id="ok">👏 Bagus!</button><button class="btn pk" id="sp">🔊 Dengarkan</button><button class="btn s" id="tm">⏱ Mulai Timer 30 detik</button></div>
+<div class="timer" id="timer"></div>
+<div class="stars" id="stars">⭐ 0</div><div class="say" id="say">Ambil kartu dulu ya! 👆</div>
+</section>
+
+<section class="w sl ct" id="roda"><h2>🎡 Roda Putar</h2><p class="sub">Putar roda untuk memilih kartu minat secara acak, lalu jawab pertanyaannya!</p>
+<div class="rw"><div class="pt">🔻</div><div class="whl" id="wh"></div></div>
+<button class="btn" id="spin">🎡 Putar!</button><div class="rbox" id="rr">Tekan tombol Putar 👆</div></section>
+
+<section class="w sl ct" id="memory"><h2>🧠 Memory Match</h2><p class="sub">Cocokkan kata bahasa Inggris dengan artinya dalam bahasa Indonesia.</p>
+<div class="pg" id="mi">Langkah: 0 · Pasangan: 0/6</div><div class="mg" id="mg"></div><button class="btn s" id="mr">🔁 Acak Ulang</button></section>
+
+<section class="w sl ct" id="gerak"><h2>🎭 Tebak Gerakan</h2><p class="sub">Satu siswa memeragakan kartu minat tanpa bicara, teman-teman menebak dalam bahasa Inggris!</p>
+<div class="rbox" id="gb" style="min-height:150px"><div class="big">🎭</div>Tekan "Ambil Kartu" lalu serahkan ke pemeran.</div>
+<div class="mtm" id="gt" style="color:var(--grn)"></div>
+<div class="ctl"><button class="btn" id="g1">🎴 Ambil Kartu</button><button class="btn s" id="g2">👁️ Lihat/Sembunyi</button><button class="btn pk" id="g3">▶ Mulai 30 dtk</button><button class="btn gr" id="g4">✅ Tebakan Benar!</button></div></section>
+
+<section class="w sl" id="kartu">
+<h2>🃏 Semua Kartu</h2>
+<p class="sub">Klik kartu 🟦 Minat atau 🟨 Bakat untuk melihat kegiatan yang sesuai!</p>
+<div class="filters" id="fl"></div>
+<div class="gal" id="gal"></div>
+</section>
+
+<section class="w sl" id="alur">
+<h2>🎬 Alur Kegiatan Kelas (± 70 menit)</h2>
+<p class="sub">Storyboard 8 frame untuk guru.</p>
+<div class="steps" id="steps"></div>
+</section>
+<div class="md" id="md"><div class="mb" id="mb"></div></div>
+<div class="sb"><button id="pv">◀</button><span id="dts"></span><span id="cn">1/7</span><button id="nx">▶</button></div>
+<div class="snd"><button id="mu" title="Musik">🎵</button><button id="sf" title="Suara efek">🔊</button></div>
+<footer>Dibuat untuk pembelajaran bahasa Inggris Kelas 6 SD 💛<br>Tips: gunakan tombol ◀ ▶ atau panah keyboard untuk pindah slide, dan 🎵 untuk musik latar.</footer>
+
+<script>
+const A=[["📖","Reading","Membaca","#8d5a2b"],["✍️","Writing","Menulis","#3f51b5"],["🎨","Drawing","Menggambar","#8e44ad"],["🎤","Singing","Bernyanyi","#ec407a"],["💃","Dancing","Menari","#c2185b"],["⚽","Playing Football","Bermain sepak bola","#2e9e4f"],["🎸","Playing Music","Bermain musik","#1e88e5"],["🍳","Cooking","Memasak","#f4511e"],["🌱","Gardening","Berkebun","#558b2f"],["🗣️","Telling Stories","Bercerita","#00897b"],["🧪","Doing Experiments","Melakukan percobaan","#0097a7"],["🎮","Playing Games","Bermain permainan","#5e35b1"]];
+const B=[["🖌️","Good at Drawing","Pandai menggambar","#8e44ad"],["🎶","Good at Singing","Pandai bernyanyi","#ec407a"],["📝","Good at Writing","Pandai menulis","#3f51b5"],["🎙️","Good at Speaking","Pandai berbicara","#fb8c00"],["🎹","Good at Playing Music","Pandai bermain musik","#1e88e5"],["🏅","Good at Sports","Pandai berolahraga","#2e9e4f"],["🧩","Good at Solving Problems","Pandai memecahkan masalah","#0097a7"],["🤝","Good at Working with Others","Pandai bekerja sama","#d84315"]];
+const C=[["❤️","What do you like?","Apa yang kamu sukai?","#e53935"],["⏳","Since when have you liked it?","Sejak kapan kamu menyukainya?","#5c6bc0"],["💡","Why do you like it?","Mengapa kamu menyukainya?","#fb8c00"],["⭐","What are you good at?","Apa yang kamu kuasai?","#d99000"]];
+const T=[{n:"KARTU MINAT",d:A,k:"#3b82f6",cls:""},{n:"KARTU BAKAT",d:B,k:"#f5b301",cls:""},{n:"KARTU PERTANYAAN",d:C,k:"#22a06b",cls:"g"}];
+const face=(x,t)=>`<div class="hd">${t.n}</div><div class="pic">${x[0]}</div><div class="tx"><div class="en">${x[1]}</div><div class="id">${x[2]}</div></div>`;
+const sl=document.getElementById("slots");
+sl.innerHTML=T.map((t,i)=>`<div class="slot ${t.cls}" data-i="${i}" style="--c:${t.k};--k:${t.k}"><div class="in"><div class="face back">${["🟦","🟨","🟩"][i]}<small>${t.n}</small></div><div class="face front"></div></div></div>`).join("");
+const pick=[null,null,null];
+function draw(i){const t=T[i],x=t.d[Math.floor(Math.random()*t.d.length)];pick[i]=x;
+const s=sl.children[i],f=s.querySelector(".front");s.style.setProperty("--c",x[3]);
+s.classList.remove("f");snd.flip();setTimeout(()=>{f.innerHTML=face(x,t);f.style.setProperty("--k",t.k);s.classList.add("f");say();speak(x[1])},300)}
+function say(){const [a,b,c]=pick;const el=document.getElementById("say");
+if(!a&&!b&&!c){el.innerHTML="Ambil kartu dulu ya! 👆";return}
+let h="";
+if(c){const q=C.indexOf(c);const m=a?a[1].toLowerCase():"___";const g=b?b[1].toLowerCase().replace("good at ","").replace(/^/,""):"___";
+const ans=[`I like <b>${m}</b>.`,`I have liked it since <b>I was ___</b>.`,`I like it because <b>it is ___</b>.`,`I am good at <b>${g}</b>.`][q];
+h+=`<div><b>${c[1]}</b></div><div>👉 ${ans}</div>`}
+else h+="Ambil juga kartu pertanyaan 🟩 ya!";
+if(a)h+=`<div class="sub" style="margin:6px 0 0">Kartu minat: ${a[1]}</div>`;
+el.innerHTML=h}
+sl.addEventListener("click",e=>{const s=e.target.closest(".slot");if(s)draw(+s.dataset.i)});
+document.getElementById("all").onclick=()=>[0,1,2].forEach((i,j)=>setTimeout(()=>draw(i),j*250));
+let iv;document.getElementById("tm").onclick=()=>{clearInterval(iv);let n=30;const el=document.getElementById("timer");el.textContent="⏱ "+n;
+iv=setInterval(()=>{n--;el.textContent=n>0?"⏱ "+n:"⏰ Time's up! 👏";if(n>0&&n<=5)snd.tick();if(n<=0){clearInterval(iv);snd.end()}},1000)};
+// gallery
+const fl=document.getElementById("fl"),gal=document.getElementById("gal");
+function show(k){fl.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("on",i==k+1));
+const list=k<0?[0,1,2]:[k];gal.onclick=e=>{const c=e.target.closest(".card");if(c){const t=+c.dataset.t,j=+c.dataset.i;if(t<2)openAct(t,j);else{snd.flip();speak(c.querySelector(".en").textContent)}}};gal.innerHTML=list.map(i=>T[i].d.map((x,j)=>`<div class="card" data-t="${i}" data-i="${j}" style="--c:${x[3]};--k:${T[i].k}">${face(x,T[i])}</div>`).join("")).join("")}
+fl.innerHTML=["Semua","🟦 Minat","🟨 Bakat","🟩 Pertanyaan"].map((n,i)=>`<button>${n}</button>`).join("");
+[...fl.children].forEach((b,i)=>b.onclick=()=>show(i-1));show(-1);
+// steps
+const S=[["👩‍🏫","Pembukaan","Guru menyapa dan menunjukkan 3 tumpukan kartu.",5],["🟦","Mengenal Kartu Minat","Guru membaca, siswa mengulang sambil bergerak.",8],["🟨","Mengenal Kartu Bakat","Menjelaskan 'good at' dan menebak gambar.",7],["🟩","Mengenal Kartu Pertanyaan","Contoh tanya jawab guru dan siswa.",5],["🧒","Latihan Berpasangan","Siswa A bertanya, siswa B menjawab, lalu tukar peran.",10],["🃏","Permainan Pick & Speak","Kelompok 4 orang mengambil 3 jenis kartu lalu menjawab.",15],["🪧","Presentasi Mini","4–5 siswa menyampaikan 4 kalimat tentang diri mereka.",12],["💬","Penutup & Refleksi","Menyebut hal baru tentang teman dan apresiasi.",8]];
+document.getElementById("steps").innerHTML=S.map((x,i)=>`<div class="st"><i>${x[0]}</i><div><b>Frame ${i+1}: ${x[1]}</b><span>${x[2]}</span></div><div class="tm">⏱ ${x[3]} mnt</div><button class="btn s" style="padding:6px 12px;font-size:.8rem" data-go="${[0,5,5,1,3,1,2,4][i]}">Buka ▶</button></div>`).join("");
+
+// ===== SOUND (Web Audio, tanpa file) =====
+let AC,mus=false,sfx=true,mi;
+const ac=()=>AC||(AC=new (window.AudioContext||window.webkitAudioContext)());
+function tone(f,d=.15,ty="sine",v=.15,dl=0){try{const c=ac(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime+dl;o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const snd={flip(){if(!sfx)return;tone(520,.08,"triangle");tone(780,.1,"triangle",.15,.07)},
+tick(){if(!sfx)return;tone(900,.05,"square",.08)},
+win(){if(!sfx)return;[523,659,784,1047].forEach((f,i)=>tone(f,.25,"triangle",.18,i*.1))},
+end(){if(!sfx)return;[784,659,523].forEach((f,i)=>tone(f,.3,"sawtooth",.1,i*.15))}};
+const mel=[523,587,659,784,880,784,659,587,523,659,784,659,587,523,440,523];let mn=0;
+function music(){tone(mel[mn%16],.35,"sine",.06);if(mn%4==0)tone(mel[mn%16]/2,.6,"triangle",.05);mn++}
+document.getElementById("mu").onclick=e=>{mus=!mus;clearInterval(mi);if(mus)mi=setInterval(music,380);e.target.textContent=mus?"⏸️":"🎵"};
+document.getElementById("sf").onclick=e=>{sfx=!sfx;e.target.textContent=sfx?"🔊":"🔇"};
+function speak(t){if(!sfx||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.8;speechSynthesis.speak(u)}
+document.getElementById("sp").onclick=()=>{const [a,b,c]=pick;const q=document.getElementById("say").innerText.replace(/[👉👆]/g,"");speak(c?q:"Please pick the cards first.")};
+// confetti + bintang
+let st=0;function confetti(){const e=["🎉","⭐","🎈","✨","💛","🟦","🟩"];for(let i=0;i<28;i++){const d=document.createElement("div");d.className="cf";d.textContent=e[i%7];d.style.left=Math.random()*100+"vw";d.style.animationDelay=Math.random()*.6+"s";document.body.appendChild(d);setTimeout(()=>d.remove(),3200)}}
+document.getElementById("ok").onclick=()=>{st++;document.getElementById("stars").textContent="⭐ "+st;snd.win();confetti();speak("Great job!")};
+// hero emoji
+document.getElementById("fl2").innerHTML=["📖","🎨","🎤","⚽","🍳","🌱","🧪","🎮","🎸","💃","🏅","🧩"].map((e,i)=>`<i style="left:${(i*8.6)%94}%;top:${(i*37)%80}%;animation-delay:${i*.5}s">${e}</i>`).join("");
+
+// ===== KEGIATAN KARTU =====
+const EA=[["Baca 2–3 kalimat dari buku cerita dengan suara nyaring, lalu ceritakan isinya ke teman.","Let's read a book!"],["Tulis 3 kalimat tentang hobimu di kertas, lalu bacakan.","Let's write a story!"],["Gambar hobimu selama 1 menit, lalu jelaskan gambarmu ke teman.","Let's draw a picture!"],["Nyanyikan satu lagu bahasa Inggris bersama-sama dengan riang.","Let's sing a song!"],["Menari 20 detik mengikuti irama tepuk tangan, teman menebak jenis tariannya.","Let's dance!"],["Peragakan menendang, mengoper, dan menangkap bola. Teman menyebut gerakannya.","Let's play football!"],["Peragakan memainkan alat musik (gitar, drum, piano). Teman menebak alatnya.","Let's play music!"],["Peragakan memasak: mix, cut, cook. Teman menebak masakan apa itu.","Let's cook together!"],["Peragakan menanam bibit dan menyiram tanaman. Sebut: plant, water, grow.","Let's plant a seed!"],["Ceritakan sebuah dongeng pendek dalam 3 kalimat: awal, tengah, akhir.","Once upon a time..."],["Campur air dan sedikit pewarna makanan, lalu sebutkan warna yang terjadi.","Let's do an experiment!"],["Mainkan tebak gambar atau suit bersama. Sebut: I win! / You win!","Let's play a game!"]];
+const EB=[["Gambar hewan favoritmu 30 detik, teman menebak gambarnya.","Draw an animal!"],["Nyanyikan satu bait lagu pendek dengan percaya diri.","Sing a little song!"],["Tulis puisi 2 baris tentang temanmu, lalu bacakan.","Write two lines!"],["Perkenalkan dirimu di depan kelas selama 30 detik.","Say hello to the class!"],["Buat irama dengan tepuk tangan dan ketukan meja, teman menirukan.","Copy my rhythm!"],["Peragakan 3 gerakan olahraga: run, jump, throw. Teman menirukan.","Move your body!"],["Selesaikan teka-teki sederhana atau susun puzzle bersama teman.","Solve the puzzle!"],["Susun menara dari kertas atau kartu bersama kelompok tanpa menjatuhkannya.","Build a tower together!"]];
+
+const VA=["📚 book|buku;📰 story|cerita;🔖 page|halaman","✏️ pencil|pensil;📓 notebook|buku tulis;🖊️ pen|pena","🖍️ crayon|krayon;🖼️ picture|gambar;🎨 color|warna","🎵 song|lagu;🎤 microphone|mikrofon;🗣️ voice|suara","🎶 music|musik;👟 step|langkah;🥁 rhythm|irama","⚽ ball|bola;🥅 goal|gawang;🏃 run|berlari","🎸 guitar|gitar;🥁 drum|drum;🎹 piano|piano","🍳 pan|wajan;🔪 cut|memotong;🍲 delicious|lezat","🌻 flower|bunga;💧 water|menyiram;🌱 seed|biji","🐉 dragon|naga;🏰 castle|istana;🦸 hero|pahlawan","🔬 microscope|mikroskop;⚗️ mix|mencampur;🌈 color|warna","🎲 dice|dadu;🧩 puzzle|teka-teki;🏆 winner|pemenang"];
+const VB=["🖌️ brush|kuas;🐱 cat|kucing;🌈 rainbow|pelangi","🎼 note|nada;🎙️ sing|bernyanyi;😊 happy|senang","📝 letter|surat;📜 poem|puisi;💡 idea|ide","🗣️ speak|berbicara;👂 listen|mendengarkan;💪 confident|percaya diri","🎹 keyboard|papan tuts;🎻 violin|biola;🎺 trumpet|terompet","🏀 basketball|bola basket;🏸 badminton|bulu tangkis;🏊 swim|berenang","🔑 solution|solusi;🤔 think|berpikir;🔍 find|menemukan","🤝 team|tim;🙌 help|membantu;🔄 share|berbagi"];
+const voc=(t,j)=>(t?VB:VA)[j].split(";").map(q=>{const [l,i]=q.split("|"),k=l.indexOf(" ");return{e:l.slice(0,k),w:l.slice(k+1),id:i}});
+const shuf=a=>[...a].sort(()=>Math.random()-.5);
+const allV=[...VA,...VB].flatMap(z=>z.split(";").map(q=>q.split("|")[1]));
+function win(){st++;document.getElementById("stars").textContent="⭐ "+st;snd.win();confetti()}
+const md=document.getElementById("md");let mti,cur;
+function openAct(t,j){const x=T[t].d[j],a=(t?EB:EA)[j],vs=voc(t,j);
+const ex=t?`I am ${x[1].toLowerCase()}.`:`I like ${x[1].toLowerCase()}.`;
+const sents=[ex,t?"I can help my friends.":"I like it because it is fun."];let si=0;
+const mb=document.getElementById("mb");mb.style.setProperty("--c",x[3]);
+mb.innerHTML=`<div class="mh">${T[t].n}<button class="mx" id="mx">✕</button></div><div class="me"><span>${x[0]}</span></div><div class="mt" style="padding-bottom:0"><h3>${x[1]}</h3><div class="id">${x[2]}</div></div><div class="tabs" id="tabs">${["🎬 Kegiatan","📚 Kosakata","🧩 Puzzle","❓ Kuis"].map((n,i)=>`<button data-n="${i}">${n}</button>`).join("")}</div><div class="mt" id="tb"></div>`;
+md.classList.add("on");snd.flip();speak(x[1]);clearInterval(mti);
+const tb=()=>document.getElementById("tb");
+let dw=null;function tab(n){const c0=document.getElementById("cv");if(c0)dw=c0.toDataURL();clearInterval(mti);tb().onclick=null;[...document.getElementById("tabs").children].forEach((b,i)=>b.classList.toggle("on",i==n));snd.flip();[tA,tV,tS,tQ][n]()}
+function tA(){tb().innerHTML=`<div class="bx"><small>🎬 KEGIATAN</small>${a[0]}</div><div class="bx"><small>🗣️ SAY IT</small><b>${a[1]}</b></div><div class="bx"><small>💬 CONTOH KALIMAT</small>${ex}</div><div class="bx"><small>🖌️ GAMBAR ILUSTRASI</small>Gambar sesuai petunjuk kegiatan di atas pakai kuas ajaibmu!</div><div class="cvw" id="cvw" data-em="${x[0]}"><canvas id="cv" width="600" height="400"></canvas></div><div class="tls" id="tls">${["#222222",x[3],"#e53935","#fb8c00","#f9c200","#22a06b","#1e88e5","#8e44ad","#8d5a2b"].map(c=>`<button class="sw" data-c="${c}" style="background:${c}" title="warna"></button>`).join("")}<button class="sw" data-r="1" style="background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red)" title="pelangi"></button><button class="tbn" data-s="4"><span style="font-size:.7rem">●</span></button><button class="tbn" data-s="10"><span style="font-size:1.1rem">●</span></button><button class="tbn" data-s="22"><span style="font-size:1.6rem">●</span></button><button class="tbn" id="er">🧽 Hapus</button><button class="tbn" id="un">↩️</button><button class="tbn" id="cl">🗑️</button><button class="tbn" id="gd">👻 Panduan</button></div><div class="mtm" id="mtm"></div><div class="mc"><button class="btn pk" id="m1">🔊 Dengarkan</button><button class="btn" id="m2">▶ Mulai 30 dtk</button><button class="btn gr" id="m3">👏 Selesai!</button></div>`;
+document.getElementById("m1").onclick=()=>speak(a[1]+". "+ex);
+document.getElementById("m2").onclick=()=>{clearInterval(mti);let n=30;const el=document.getElementById("mtm");el.textContent="⏱ "+n;mti=setInterval(()=>{n--;el.textContent=n>0?"⏱ "+n:"⏰ Time's up!";if(n>0&&n<=5)snd.tick();if(n<=0){clearInterval(mti);snd.end()}},1000)};
+document.getElementById("m3").onclick=()=>{win();speak("Great job!")};draw()}
+function draw(){const cv=document.getElementById("cv"),cx=cv.getContext("2d"),W=document.getElementById("cvw"),tl=document.getElementById("tls");
+let col=x[3],sz=10,er=false,rb=false,dn=false,lx,ly,hue=0,hist=[];cx.lineCap="round";cx.lineJoin="round";
+if(dw){const im=new Image();im.onload=()=>cx.drawImage(im,0,0);im.src=dw}
+const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
+const snap=()=>{hist.push(cx.getImageData(0,0,cv.width,cv.height));if(hist.length>15)hist.shift()};
+function pen(){cx.globalCompositeOperation=er?"destination-out":"source-over";cx.strokeStyle=cx.fillStyle=rb?`hsl(${hue=(hue+6)%360},90%,55%)`:col;cx.lineWidth=er?sz*2:sz}
+cv.onpointerdown=e=>{e.preventDefault();cv.setPointerCapture(e.pointerId);snap();dn=true;[lx,ly]=pos(e);pen();cx.beginPath();cx.arc(lx,ly,cx.lineWidth/2,0,7);cx.fill()};
+cv.onpointermove=e=>{if(!dn)return;const[px,py]=pos(e);pen();cx.beginPath();cx.moveTo(lx,ly);cx.lineTo(px,py);cx.stroke();lx=px;ly=py};
+cv.onpointerup=cv.onpointercancel=()=>{dn=false};
+function up(){tl.querySelectorAll(".sw").forEach(b=>b.classList.toggle("on",!er&&(b.dataset.r?rb:(!rb&&b.dataset.c==col))));tl.querySelectorAll("[data-s]").forEach(b=>b.classList.toggle("on",+b.dataset.s==sz));document.getElementById("er").classList.toggle("on",er)}
+tl.onclick=e=>{const b=e.target.closest("button");if(!b)return;
+if(b.dataset.c){col=b.dataset.c;er=false;rb=false}else if(b.dataset.r){rb=true;er=false}else if(b.dataset.s)sz=+b.dataset.s;
+else if(b.id=="er"){er=!er;rb=false}else if(b.id=="un"){const h=hist.pop();if(h)cx.putImageData(h,0,0)}
+else if(b.id=="cl"){snap();cx.clearRect(0,0,cv.width,cv.height);snd.tick()}else if(b.id=="gd")W.classList.toggle("gd");
+snd.tick();up()};up()}
+function tV(){tb().innerHTML=`<div class="pg">Ketuk kartu untuk mendengar &amp; melihat artinya</div><div class="vg">${vs.map((v,i)=>`<button class="vc" data-i="${i}"><b>${v.e}</b><span>${v.w}</span><small></small></button>`).join("")}</div>`;
+tb().querySelector(".vg").onclick=e=>{const c=e.target.closest(".vc");if(!c)return;const v=vs[+c.dataset.i];c.classList.add("rv");c.querySelector("small").textContent=v.id;snd.flip();speak(v.w)}}
+function tS(){const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><defs><pattern id="p" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="8" cy="8" r="2" fill="#fff" opacity=".35"/></pattern></defs><rect width="300" height="300" fill="${x[3]}"/><rect width="300" height="300" fill="url(#p)"/><circle cx="150" cy="140" r="100" fill="#fff"/><text x="150" y="185" font-size="130" text-anchor="middle">${x[0]}</text><rect y="248" width="300" height="52" fill="#000" opacity=".35"/><text x="150" y="283" font-size="${x[1].length>18?20:26}" font-weight="bold" text-anchor="middle" fill="#fff" font-family="sans-serif">${x[1].toUpperCase()}</text></svg>`;
+const img=`url('data:image/svg+xml,${encodeURIComponent(svg)}')`;
+let o,sel=null,mv=0,done=false,pv=false;
+function init(){do{o=shuf([0,1,2,3,4,5,6,7,8])}while(o.some((v,i)=>v==i));sel=null;mv=0;done=false;dr()}
+function dr(){tb().innerHTML=`<div class="pg">Ketuk 2 potongan untuk menukar &amp; susun gambar kartu <b>${x[1]}</b> · Langkah: ${mv}</div>${pv?`<div style="width:min(150px,50vw);height:min(150px,50vw);margin:8px auto;background:${img} center/cover;border-radius:12px"></div>`:""}<div class="pz" style="${done?"gap:0;padding:0":""}">${o.map((v,p)=>`<button data-p="${p}" class="${sel===p?"sel":""} ${v==p&&!done?"ok":""}" style="background-image:${img};background-position:${(v%3)*50}% ${Math.floor(v/3)*50}%"></button>`).join("")}</div><div class="rs">${done?`🎉 Hebat! Kalimat: <b>${ex}</b>`:""}</div><div class="mc"><button class="btn s" id="pe">👁️ Intip</button><button class="btn" id="pr">🔀 Acak Ulang</button></div>`;
+tb().onclick=e=>{const b=e.target.closest("button");if(!b)return;
+if(b.id=="pe"){pv=!pv;dr();return}if(b.id=="pr"){init();return}
+if(done||b.dataset.p===undefined)return;const p=+b.dataset.p;
+if(sel===null){sel=p;snd.tick();dr();return}
+if(sel!==p){[o[sel],o[p]]=[o[p],o[sel]];mv++;snd.flip()}sel=null;
+if(o.every((v,i)=>v==i)){done=true;win();speak(x[1]+". "+ex)}dr()}}
+init()}
+function tQ(){const qs=[{q:`Apa arti "${x[1]}"?`,a:x[2],o:shuf(T[t].d.filter(d=>d!=x)).slice(0,2).map(d=>d[2])},...shuf(vs).slice(0,2).map(v=>({q:`Apa arti "${v.w}"?`,a:v.id,o:shuf(allV.filter(i=>i!=v.id)).slice(0,2)}))];let n=0,sc=0;
+function nx(){if(n>=qs.length){tb().innerHTML=`<div style="text-align:center;font-size:3rem">${sc==3?"🏆":"👍"}</div><div class="rs">Skor kamu: ⭐ ${sc}/3</div><div class="mc"><button class="btn" id="ag">🔁 Main lagi</button></div>`;if(sc==3){win();speak("Excellent!")}document.getElementById("ag").onclick=tQ;return}
+const q=qs[n],op=shuf([q.a,...q.o]);tb().innerHTML=`<div class="pg">Pertanyaan ${n+1}/3</div><div class="bx" style="font-size:1.1rem;text-align:center"><b>${q.q}</b></div>${op.map(o=>`<button class="op">${o}</button>`).join("")}`;
+tb().onclick=e=>{const b=e.target.closest(".op");if(!b||b.disabled)return;if(b.textContent==q.a){b.classList.add("ok");sc++;snd.win()}else{b.classList.add("no");snd.end();[...tb().querySelectorAll(".op")].find(z=>z.textContent==q.a).classList.add("ok")}tb().querySelectorAll(".op").forEach(z=>z.disabled=true);n++;setTimeout(nx,1300)}}
+nx()}
+document.getElementById("tabs").onclick=e=>{const b=e.target.closest("button");if(b)tab(+b.dataset.n)};
+document.getElementById("mx").onclick=closeAct;tab(0)}
+function closeAct(){clearInterval(mti);md.classList.remove("on");speechSynthesis&&speechSynthesis.cancel()}
+md.onclick=e=>{if(e.target===md)closeAct()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAct()});
+
+// ===== SLIDE =====
+const SL=[...document.querySelectorAll(".sl")],LB=["🏠 Beranda","🎮 Main","🎡 Roda","🧠 Memory","🎭 Gerakan","🃏 Kartu","🎬 Alur"];let cs=0;
+document.getElementById("nv").innerHTML=LB.map((n,i)=>`<button data-go="${i}">${n}</button>`).join("");
+function go(n,q){cs=(n+SL.length)%SL.length;SL.forEach((e,i)=>e.classList.toggle("on",i==cs));[...document.getElementById("nv").children].forEach((b,i)=>b.classList.toggle("on",i==cs));document.getElementById("cn").textContent=(cs+1)+"/"+SL.length;scrollTo(0,0);if(!q)snd.flip();
+const b=document.getElementById("nv").children[cs];b.scrollIntoView&&b.scrollIntoView({inline:"center",block:"nearest"})}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(+b.dataset.go)});
+document.getElementById("pv").onclick=()=>go(cs-1);document.getElementById("nx").onclick=()=>go(cs+1);
+document.addEventListener("keydown",e=>{if(md.classList.contains("on"))return;if(e.key==="ArrowRight")go(cs+1);if(e.key==="ArrowLeft")go(cs-1)});
+// ===== RODA =====
+const wh=document.getElementById("wh");let rot=0,busy=false;
+wh.style.background="conic-gradient("+A.map((x,i)=>`${x[3]} ${i*30}deg ${(i+1)*30}deg`).join(",")+")";
+wh.innerHTML=A.map((x,i)=>`<i style="transform:rotate(${i*30+15}deg) translateY(calc(var(--s)*-.36))">${x[0]}</i>`).join("");
+document.getElementById("spin").onclick=()=>{if(busy)return;busy=true;const idx=Math.floor(Math.random()*12);
+rot=Math.ceil(rot/360)*360+1800+((360-(idx*30+15)+Math.random()*16-8+360)%360);wh.style.transform=`rotate(${rot}deg)`;
+const tk=setInterval(()=>snd.tick(),130);document.getElementById("rr").textContent="🎡 ...";
+setTimeout(()=>{clearInterval(tk);busy=false;const x=A[idx],q=C[Math.floor(Math.random()*4)];snd.win();speak(x[1]);
+const bx=document.getElementById("rr");bx.style.setProperty("--c",x[3]);
+bx.innerHTML=`<div class="big" style="font-size:3rem">${x[0]}</div><h3 style="margin:0;color:${x[3]}">${x[1]}</h3><div class="id">${x[2]}</div><div class="bx"><small>❓ PERTANYAAN</small><b>${q[1]}</b></div><div class="mc"><button class="btn pk" id="rq">🔊 Dengarkan</button><button class="btn" id="ra">🎬 Buka Kegiatan</button></div>`;
+document.getElementById("rq").onclick=()=>speak(x[1]+". "+q[1]);document.getElementById("ra").onclick=()=>openAct(0,idx)},4200)};
+// ===== MEMORY =====
+let mf=null,lk=false,mm=0,mp=0;
+function mem(){const ps=shuf(A.map((x,i)=>i)).slice(0,6);mf=null;lk=false;mm=0;mp=0;
+const ts=shuf(ps.flatMap(i=>[{i,t:0},{i,t:1}]));
+document.getElementById("mi").textContent="Langkah: 0 · Pasangan: 0/6";
+document.getElementById("mg").innerHTML=ts.map((o,k)=>`<button class="tl" data-k="${k}" style="--c:${A[o.i][3]}">❓</button>`).join("");
+document.getElementById("mg").onclick=e=>{const b=e.target.closest(".tl");if(!b||lk||b.classList.contains("up")||b.classList.contains("dn"))return;
+const o=ts[+b.dataset.k],x=A[o.i];b.classList.add("up");snd.flip();
+b.innerHTML=o.t?`<span>${x[2]}</span>`:`<b>${x[0]}</b><span>${x[1]}</span>`;if(!o.t)speak(x[1]);
+if(!mf){mf=b;return}
+mm++;const p=ts[+mf.dataset.k];
+if(p.i==o.i&&p.t!=o.t){[mf,b].forEach(z=>{z.classList.remove("up");z.classList.add("dn")});mp++;snd.win();mf=null;
+if(mp==6){confetti();st+=2;document.getElementById("stars").textContent="⭐ "+st;speak("Excellent!")}}
+else{lk=true;const a=mf;mf=null;snd.end();setTimeout(()=>{[a,b].forEach(z=>{z.classList.remove("up");z.textContent="❓"});lk=false},900)}
+document.getElementById("mi").textContent=`Langkah: ${mm} · Pasangan: ${mp}/6`}}
+document.getElementById("mr").onclick=mem;mem();
+// ===== TEBAK GERAKAN =====
+let gc=null,gv=false,gi;
+function gshow(){const b=document.getElementById("gb");if(!gc){return}const x=A[gc];
+b.style.setProperty("--c",x[3]);b.innerHTML=gv?`<div class="big">${x[0]}</div><h3 style="margin:0;color:${x[3]}">${x[1]}</h3><div class="id">Peragakan tanpa bicara! 🤫</div>`:`<div class="big">🙈</div>Kartu disembunyikan.<br>Tekan 👁️ agar pemeran melihat kartunya.`}
+document.getElementById("g1").onclick=()=>{gc=Math.floor(Math.random()*12);gv=true;clearInterval(gi);document.getElementById("gt").textContent="";snd.flip();gshow()};
+document.getElementById("g2").onclick=()=>{gv=!gv;gshow()};
+document.getElementById("g3").onclick=()=>{if(gc===null)return;gv=false;gshow();clearInterval(gi);let n=30;const el=document.getElementById("gt");el.textContent="⏱ "+n;
+gi=setInterval(()=>{n--;el.textContent=n>0?"⏱ "+n:"⏰ Time's up!";if(n>0&&n<=5)snd.tick();if(n<=0){clearInterval(gi);snd.end()}},1000)};
+document.getElementById("g4").onclick=()=>{if(gc===null)return;clearInterval(gi);const x=A[gc];gv=true;gshow();win();speak("Is it "+x[1]+"? Yes! Great job!");document.getElementById("gt").textContent="🎉 Is it "+x[1].toLowerCase()+"? Yes!"};
+go(0,true);
+
+// ===== V2 EXTRAS =====
+const dts=document.getElementById("dts");
+dts.innerHTML=LB.map((n,i)=>`<button class="dt" data-go="${i}" title="${n}" aria-label="${n}"></button>`).join("");
+const g0=go;
+go=function(n,q){g0(n,q);[...dts.children].forEach((d,i)=>d.classList.toggle("on",i==cs));document.getElementById("pbi").style.width=((cs+1)/SL.length*100)+"%"};
+go(0,true);
+new MutationObserver(()=>{document.getElementById("hs").textContent=document.getElementById("stars").textContent}).observe(document.getElementById("stars"),{childList:true,characterData:true,subtree:true});
+const rt=document.documentElement;
+document.getElementById("th").onclick=()=>{const d=rt.dataset.theme?rt.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches;rt.dataset.theme=d?"light":"dark"};
+document.getElementById("fan").innerHTML=[[0,-9],[5,0],[7,9]].map(([i,a],k)=>`<div class="fc" style="--c:${A[i][3]};transform:rotate(${a}deg);animation-delay:${k*.4}s"><b>${A[i][0]}</b><span>${A[i][1]}</span></div>`).join("");
+
+// ===== V3 COMIC: efek onomatope =====
+const w0=win;
+win=function(){w0();const d=document.createElement("div");d.className="pp2";d.textContent=["POW!","WOW!","BOOM!","YEAH!","ZAP!","BRAVO!"][Math.floor(Math.random()*6)];document.body.appendChild(d);setTimeout(()=>d.remove(),1000)};
+
+// ===== TOMBOL KEMBALI / MAJU SESUAI RIWAYAT KLIK =====
+let H=[0],hi=0,skipH=false;
+const pvB=document.getElementById("pv"),nxB=document.getElementById("nx"),nm=i=>LB[i].replace(/^\S+\s/,"");
+function upd(){const b=hi>0?H[hi-1]:null,f=hi<H.length-1?H[hi+1]:null;
+pvB.disabled=b===null;nxB.disabled=f===null;
+pvB.innerHTML="◀<small>"+(b===null?"":nm(b))+"</small>";nxB.innerHTML="<small>"+(f===null?"":nm(f))+"</small>▶";
+pvB.title=b===null?"Belum ada halaman sebelumnya":"Kembali ke "+LB[b];nxB.title=f===null?"Belum ada halaman berikutnya":"Maju ke "+LB[f]}
+const gH=go;
+go=function(n,q){const t=(n+SL.length)%SL.length;if(!skipH&&t!==cs){H=H.slice(0,hi+1);H.push(t);hi=H.length-1}gH(n,q);upd()};
+const back=()=>{if(hi>0){hi--;skipH=true;go(H[hi]);skipH=false}},fwd=()=>{if(hi<H.length-1){hi++;skipH=true;go(H[hi]);skipH=false}};
+pvB.onclick=back;nxB.onclick=fwd;
+document.addEventListener("keydown",e=>{if(md.classList.contains("on"))return;if(e.key==="ArrowLeft"){e.stopImmediatePropagation();back()}if(e.key==="ArrowRight"){e.stopImmediatePropagation();fwd()}},true);
+upd();
+</script>
+</body>
+</html>
